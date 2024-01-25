@@ -1,6 +1,6 @@
-# Node Express & Typescript Starter for 2022 & 2023
+# Node Express & Typescript Starter for 2024
 
-_"A minimally opinionated typescript & express starter for 2022 & 2023"_
+_"A minimally opinionated typescript & express starter for 2024"_
 
 This template is also used by my utility create-my-express on npm.
 
@@ -27,12 +27,3 @@ A `POST` request to `/` will echo any json sent in the request body.
 ## Help out
 
 Feedback and contributions are very welcome.
-
-## how to generate aws ssh private and public key
-1.login ce2
-2.ssh-keygen
-3.cat ~/.ssh/id_rsa.pub  // for public
-4.cat ~/.ssh/id_rsa // for private
-
-
- cd .ssh/
