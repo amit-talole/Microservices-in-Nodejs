@@ -20,6 +20,8 @@ class ResponseMassages {
 class Message {
   someting_went_wrong = 'something went to wrong ';
   invalidParameter = 'invalid parameter';
+  emailAlradyRegistered = 'email Alrady Registered';
+  emailAdressNotValid = 'email address not valid';
 }
 
 export { ResponseMassages, ResponseStatus, Message };

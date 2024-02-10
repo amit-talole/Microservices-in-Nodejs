@@ -6,8 +6,9 @@
   "license": "MIT",
   "main": "dist/src/index.js",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "tsc",
-    "start": " npm run prettier &&  nodemon tsc && node dist/src/index.js ",
+    "start": "npm nodemon tsc && node dist/src/index.js ",
     "dev": "ts-node-dev --watch .env, src src/index.ts",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",

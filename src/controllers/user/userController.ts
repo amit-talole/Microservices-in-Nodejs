@@ -19,6 +19,7 @@ class User {
 
   login = async (data: any) => {
     try {
+      return await this.userServices.loginAsync(data);
     } catch (error: any) {
       return { status: this.responseStatus.error, message: error.message };
     }
