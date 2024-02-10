@@ -4,6 +4,6 @@ import { user } from './userController';
 
 const userRoute = Router();
 
-userRoute.get('/user', async (req, res) => commonFunction.apiResponse(await user.signUp(req.body), res));
+userRoute.post('/user/signup', async (req, res) => commonFunction.apiResponse( await user.signUp(req.body), res));
 
 export { userRoute };

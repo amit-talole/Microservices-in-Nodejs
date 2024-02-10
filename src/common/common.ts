@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { CommonFunctionInterface, apiResponseObject } from './interface';
 import { ResponseStatus, ResponseMassages, Message } from './constant';
 import { Response } from 'express-serve-static-core';
+import {compare,hash,genSaltSync} from 'bcrypt';
 
 class CommonFunction implements CommonFunctionInterface {
   constructor(
@@ -14,21 +15,38 @@ class CommonFunction implements CommonFunctionInterface {
   async verifyToken(token: string) {
     try {
       const jwtKey: string = process.env.JWTTOKEN || '';
-      const decoded = jwt.verify(token, jwtKey);
-      return { status: this.responseMassages.success, data: decoded };
+      const decoded =await jwt.verify(token, jwtKey);
+      return { status: this.responseStatus.success, data: decoded };
     } catch (error: any) {
-      return { status: this.responseMassages.error, data: error.message };
+      return { status: this.responseStatus.error, data: error.message };
     }
   }
 
-  async generateToken(payload: string) {
-    try {
+  async generateToken(payload:{
+    name:string
+    email:string
+  },expiresIn ='2 days') {
+    try {      
       const jwtKey: string = process.env.JWTTOKEN || '';
-      const token = jwt.sign(payload, jwtKey);
-      return { status: this.responseMassages.success, data: token };
+      const token = await jwt.sign(payload, jwtKey, {expiresIn});
+      return { status: this.responseStatus.success, data: token };
     } catch (error: any) {
-      return { status: this.responseMassages.error, data: error.message };
+      return { status: this.responseStatus.error, data: error.message };
     }
+  }
+
+
+  async hashPassword(data:any){
+    const saltRount = Number(process.env.SALTROUND)
+    return await hash(data, saltRount)
+  }
+
+  async comparePassword(hashPassword:any,password:any){
+   const isPasswordValid = await compare(password,hashPassword)
+   if (isPasswordValid) {
+    return true
+   }
+   return false
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiResponse = async ({ status, message, data }: apiResponseObject, res: Response<any>) => {
@@ -43,28 +61,32 @@ class CommonFunction implements CommonFunctionInterface {
         ip = res.req.ip || '';
       }
 
-      if (status === this.responseMassages.fail) {
-        statusCode = 400;
+      if (status === this.responseStatus.fail) {
+        statusCode = this.responseStatus.fail;
         statusMSG = message;
       }
-      if (status === this.responseMassages.unauthorized) {
-        statusCode = 401;
+      if (status === this.responseStatus.unauthorized) {
+        statusCode = this.responseStatus.unauthorized;
         statusMSG = message;
       }
-      if (status === this.responseMassages.error) {
-        statusCode = 500;
+      if (status === this.responseStatus.error) {
+        statusCode = this.responseStatus.error;
         statusMSG = message;
       }
-      if (status === this.responseMassages.bad_request) {
-        statusCode = 400;
+      if (status === this.responseStatus.bad_request) {
+        statusCode = this.responseStatus.bad_request;
         statusMSG = message;
       }
-      if (status === this.responseMassages.not_found) {
-        statusCode = 404;
+      if (status === this.responseStatus.not_found) {
+        statusCode = this.responseStatus.not_found;
         statusMSG = message;
       }
-      if (status === this.responseMassages.success) {
-        statusCode = 200;
+      if (status === this.responseStatus.too_many_request) {
+        statusCode = this.responseStatus.too_many_request;
+        statusMSG = message;
+      }
+      if (status === this.responseStatus.success) {
+        statusCode = this.responseStatus.success;
         statusMSG = message;
       } else {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -75,42 +97,42 @@ class CommonFunction implements CommonFunctionInterface {
     } catch (error: any) {
       return { status: this.responseMassages.error, message: error.message };
     } finally {
-      if (status === this.responseMassages.fail) {
-        return res.status(400).json({
+      if (status === this.responseStatus.fail) {
+        return res.status(this.responseStatus.fail).json({
           status,
           message,
           data,
         });
       }
-      if (status === this.responseMassages.unauthorized) {
-        return res.status(401).json({
+      if (status === this.responseStatus.unauthorized) {
+        return res.status(this.responseStatus.unauthorized).json({
           status,
           message,
           data,
         });
       }
-      if (status === this.responseMassages.error) {
-        return res.status(500).json({
-          status,
-          message: this.message.someting_went_wrong,
-          data,
-        });
-      }
-      if (status === this.responseMassages.bad_request) {
-        return res.status(400).json({
+      if (status === this.responseStatus.error) {
+        return res.status(this.responseStatus.error).json({
           status,
           message,
           data,
         });
       }
-      if (status === this.responseMassages.not_found) {
-        return res.status(404).json({
+      if (status === this.responseStatus.bad_request) {
+        return res.status(this.responseStatus.bad_request).json({
           status,
           message,
           data,
         });
       }
-      return res.status(200).json({
+      if (status === this.responseStatus.not_found) {
+        return res.status(this.responseStatus.not_found).json({
+          status,
+          message,
+          data,
+        });
+      }
+      return res.status(this.responseStatus.success).json({
         status,
         data,
         message,

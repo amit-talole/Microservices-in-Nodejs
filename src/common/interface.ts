@@ -2,11 +2,11 @@
 import { verifyTokenResponse } from './response-promise';
 
 export interface apiResponseObject {
-  status: string;
+  status: number;
   data?: any;
   message?: any;
 }
 export interface CommonFunctionInterface {
   verifyToken(token: string): Promise<verifyTokenResponse>;
-  generateToken(payload: string): Promise<verifyTokenResponse>;
+  generateToken(payload: any): Promise<verifyTokenResponse>;
 }
