@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { CommonFunctionInterface, apiResponseObject } from './interface';
 import { ResponseStatus, ResponseMassages, Message } from './constant';
 import { Response } from 'express-serve-static-core';
-import {compare,hash,genSaltSync} from 'bcrypt';
+import { compare, hash, genSaltSync } from 'bcrypt';
 
 class CommonFunction implements CommonFunctionInterface {
   constructor(
@@ -15,38 +15,41 @@ class CommonFunction implements CommonFunctionInterface {
   async verifyToken(token: string) {
     try {
       const jwtKey: string = process.env.JWTTOKEN || '';
-      const decoded =await jwt.verify(token, jwtKey);
+      const decoded = await jwt.verify(token, jwtKey);
       return { status: this.responseStatus.success, data: decoded };
     } catch (error: any) {
       return { status: this.responseStatus.error, data: error.message };
     }
   }
 
-  async generateToken(payload:{
-    name:string
-    email:string
-  },expiresIn ='2 days') {
-    try {      
+  async generateToken(
+    payload: {
+      name: string;
+      email: string;
+      roleType: string;
+    },
+    expiresIn = '2 days',
+  ) {
+    try {
       const jwtKey: string = process.env.JWTTOKEN || '';
-      const token = await jwt.sign(payload, jwtKey, {expiresIn});
+      const token = await jwt.sign(payload, jwtKey, { expiresIn });
       return { status: this.responseStatus.success, data: token };
     } catch (error: any) {
       return { status: this.responseStatus.error, data: error.message };
     }
   }
 
-
-  async hashPassword(data:any){
-    const saltRount = Number(process.env.SALTROUND)
-    return await hash(data, saltRount)
+  async hashPassword(data: any) {
+    const saltRount = Number(process.env.SALTROUND);
+    return await hash(data, saltRount);
   }
 
-  async comparePassword(hashPassword:any,password:any){
-   const isPasswordValid = await compare(password,hashPassword)
-   if (isPasswordValid) {
-    return true
-   }
-   return false
+  async comparePassword(hashPassword: any, password: any) {
+    const isPasswordValid = await compare(password, hashPassword);
+    if (isPasswordValid) {
+      return true;
+    }
+    return false;
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiResponse = async ({ status, message, data }: apiResponseObject, res: Response<any>) => {
