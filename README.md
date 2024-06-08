@@ -1,22 +1,17 @@
-# Node Express & Typescript Starter for 2024
+# Node Express & Typescript Microservices 
+This project is basic demo of Microservices in Nodejs, Along with API gatway. In this project we have three Microservices, as slisted below
+1. [Auth Service](https://github.com/amit-talole/Microservices-in-Nodejs/tree/main/AuthGatway)
+2. [Product Service](https://github.com/amit-talole/Microservices-in-Nodejs/tree/main/ProductGatway)
+3. [User Service](https://github.com/amit-talole/Microservices-in-Nodejs/tree/main/UserGatway)
 
-_"A minimally opinionated typescript & express starter for 2024"_
+## User Service
+This service will implement the User related APIs.
 
-This template is also used by my utility create-my-express on npm.
+## Product Service
+This service will implement the Product related APIs.
 
-## Usage:
+## Order Service
+This service will implement the Order related APIs.
 
-You should copy `.env.sample` to `.env` and then:
-
-
-`npm start` - Runs the server.
-
-## Default endpoints:
-
-A `GET` request to `/` will respond with a description of the application.
-
-A `POST` request to `/` will echo any json sent in the request body.
-
-## Help out
-
-Feedback and contributions are very welcome.
+## API gateway
+An [API Gateway](https://github.com/amit-talole/Microservices-in-Nodejs/tree/main/APIGateway) where you will add Rate Limit and other Authentications.
