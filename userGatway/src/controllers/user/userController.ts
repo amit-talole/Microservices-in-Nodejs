@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiResponseObject, UserServicesInterface } from 'src/common/interface';
 import { ResponseMassages, ResponseStatus, Message } from '../../common/constant';
-import { UserServices } from '../user/userService';
+import { UserServices } from './userService';
 
 class User implements UserServicesInterface {
   constructor(

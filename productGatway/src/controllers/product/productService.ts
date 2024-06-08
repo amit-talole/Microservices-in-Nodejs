@@ -14,8 +14,6 @@ export class ProductServices {
   addProductAsync = async (data: ProductDto): Promise<apiResponseType> => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      console.log('data', data);
-
       const { type, name, quantity, userId } = data;
       if (!type || !name || !userId || !quantity) {
         return { status: this.responseStatus.fail, message: this.message.invalidParameter };

@@ -31,9 +31,7 @@ export class UserServices {
    } 
   }
   async getUserDetailOnIdAsync(data:GetUserDetailOnId):Promise <apiResponseObject>{
-    try {
-      console.log("data",data);
-      
+    try {      
      const {id} = data    
      if (!id) {
        return{
