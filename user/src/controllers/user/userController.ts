@@ -18,6 +18,14 @@ class User implements UserServicesInterface {
 
     }
   }
+  getUserDetailOnId = async(data:any) :Promise <apiResponseObject> =>{
+    try {
+      return await this.userServices.getUserDetailOnIdAsync(data);
+    } catch (error:any) {
+      return { status: this.responseStatus.error, message: error.message };
+
+    }
+  }
 }
 
 export const user = new User(

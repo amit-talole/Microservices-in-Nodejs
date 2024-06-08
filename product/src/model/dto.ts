@@ -1,10 +1,10 @@
-export interface ProductDto {
-  name: string;
-  type: string;
-  quantity: number;
-  userId: string;
+export class ProductDto {
+  name: string | undefined;
+  type: string | undefined;
+  quantity: number | undefined;
+  userId: string|undefined;
 }
 
-export interface GetProductByIdDto {
-  id: string;
+export class GetProductByIdDto {
+  id: string | undefined;
 }
