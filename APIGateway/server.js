@@ -2,6 +2,9 @@
 const express = require('express');
 const http = require('http');
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+const cors = require('cors');
+
 const Routes = require('./routes');
 
 class Server {
@@ -18,6 +21,7 @@ class Server {
 
   startTheServer() {
     this.includeRoutes();
+    this.app.use(cors());
 
     const port = process.env.NODE_SERVER_POST || 8000;
     const host = process.env.NODE_SERVER_HOST || 'localhost';
