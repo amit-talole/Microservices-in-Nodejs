@@ -18,24 +18,25 @@ class App {
   }
 
   private async config(): Promise<void> {
-    await this.app.use(express.json());
-    await this.app.use(express.urlencoded({ extended: true }));
-    await this.app.use((req: Request, res: Response, next: NextFunction) => {
+    this.app.use(cors())
+     this.app.use(express.json());
+     this.app.use(express.urlencoded({ extended: true }));
+     this.app.use((req: Request, res: Response, next: NextFunction) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     });
-    await this.db.mongodbConnection();
-    await this.app.use(
-      await cors({
+     this.db.mongodbConnection();
+     this.app.use(
+       cors({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         origin: config.clientOrigins[config.nodeEnv],
       }),
     );
-    await this.app.use(helmet());
-    await this.app.use(morgan('tiny'));
+     this.app.use(helmet());
+     this.app.use(morgan('tiny'));
   }
 }
 
